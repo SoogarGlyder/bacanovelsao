@@ -1,6 +1,6 @@
 import express from 'express';
-import Novel from './Novel';
-import Chapter from './Chapter';
+import { Novel } from './Novel.js';
+import { Chapter } from './Chapter.js';
 
 const router = express.Router();
 

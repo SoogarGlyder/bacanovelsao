@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { connectDB } from './db';
-import novelRoutes from './novels'; 
-import chapterRoutes from './chapters';
+import { novelRoutes } from './novels'; 
+import { chapterRoutes } from './chapters';
 
 const app = express();
 
