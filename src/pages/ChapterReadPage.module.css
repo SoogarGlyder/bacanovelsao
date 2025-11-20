@@ -1,0 +1,158 @@
+.holyGrailLayout {
+  display: flex;
+  width: 100%;
+  max-width: 1440px; 
+  justify-self: center;
+}
+.mobileToggle {
+  display: none;
+  padding: 4.5px;
+  width: 100vw;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: #eee;
+  border-radius: 0px;
+  cursor: pointer;
+}
+.leftSidebar {
+  width: min(14.3vw, 205.771px);
+  flex-shrink: 0; 
+  position: fixed;
+  top: var(--total-header-height);
+  height: calc(100vh - var(--total-header-height)); 
+  overflow-y: auto; 
+  background: #f9f9f9;
+}
+.leftSidebarTitle {
+  padding: 10px;
+}
+.mainContent {
+  margin-left: min(14.3vw, 205.771px);
+  flex-grow: 1; 
+  min-width: 0; 
+  background: #ffffff;
+  padding: 10px 20px;
+  border-right: 1px solid #f0f0f0;
+}
+.rightSidebar {
+  width: min-content;
+  max-width: 200px;
+  margin: 0 20px; 
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--total-header-height) + 10px);
+  height: fit-content;
+  display: grid;
+  justify-content: center;
+}
+.chapterList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.chapterLink {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+}
+.chapterLink:hover {
+  background-color: #eee;
+  color: #333;
+  font-weight: bold;
+  font-size: 110%;
+}
+.activeChapter {
+  background-color: #38b6ff;
+  color: whitesmoke;
+  font-weight: bold;
+  font-size: 110%;
+}
+.activeChapter:hover {
+  background-color: #38b6ff;
+  color: whitesmoke;
+  font-weight: bold;
+  font-size: 110%;
+}
+.chapterHeader h1 {
+  font-size: 2.5em;
+  margin: 0;
+  line-height: 1.2;
+}
+.chapterHeader h4 {
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #666;
+  margin: 5px 0 20px 0;
+}
+.divider {
+  border: 0;
+  border-top: 2px solid #f0f0f0;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.content {
+  font-size: 1.15em; 
+  line-height: 1.5; 
+  color: #222; 
+  text-align: justify;
+}
+.content p {
+  margin-bottom: 1em;
+}
+.navigation {
+  padding: 20px 0px;
+  border-top: 2px solid #f0f0f0;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .holyGrailLayout {
+    flex-direction: column;
+    padding: 10px;
+    gap: 15px;
+    margin-top: var(--total-header-height)
+  }
+  .leftSidebar {
+    order: 1;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    height: auto;
+    overflow-y: visible;
+    padding-top: 4px;
+    background: white;
+  }
+  .mobileToggle {
+    display: block;
+  }
+  .chapterList {
+    background: #fff;
+    width: 100vw;
+    font-size: 0.95em;
+    text-align: center;
+  }
+  .chapterLink {
+  padding: 2px 10px;
+}
+  .leftSidebarTitle {
+    display: none;
+  }
+  .mainContent {
+    order: 2;
+    width: 100%;
+    padding: 0 15px;
+    margin-top: 32px;
+    margin-left: unset;
+    border-right: none;
+  }
+  .rightSidebar {
+    order: 3;
+    width: 100%;
+    max-width: none;
+    position: static;
+    margin: 0;
+  }
+}

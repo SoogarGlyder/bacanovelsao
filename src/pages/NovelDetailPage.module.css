@@ -1,0 +1,94 @@
+.detailContainer {
+  width: 100vw;
+  margin: 20px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid untuk info atas (gambar + teks) */
+.infoGrid {
+  display: flex;
+  flex-wrap: wrap; /* Agar responsif di HP */
+  gap: 30px; /* Jarak antara gambar dan info */
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+/* Kolom gambar */
+.coverWrapper {
+  flex: 1; /* Biarkan gambar mengecil/membesar */
+  min-width: 250px; /* Lebar minimum sebelum pindah baris */
+}
+
+.coverImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Kolom info teks */
+.infoWrapper {
+  flex: 2; /* Ambil ruang 2x lebih banyak dari gambar */
+  min-width: 300px;
+}
+
+.infoWrapper h1 {
+  font-size: 2.8em; /* Sedikit lebih kecil dari h1 global */
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.author {
+  font-size: 1.25em;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.synopsis {
+  font-size: 1em;
+  line-height: 1.7;
+  color: #333;
+}
+
+/* Bagian Daftar Chapter */
+.chapterListSection h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.chapterList {
+  list-style-type: none; /* Hapus bullet points */
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #eee;
+}
+
+.chapterItem {
+  border-bottom: 1px solid #eee;
+}
+
+/* Ubah link di dalam list */
+.chapterLink {
+  display: block; /* Buat link mengisi seluruh area 'li' */
+  padding: 16px 10px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.chapterLink:hover {
+  background-color: #f9f9f9;
+  color: #007bff; /* Warna biru saat di-hover */
+}
+
+.noChapters {
+  font-style: italic;
+  color: #777;
+}
