@@ -1,6 +1,6 @@
 import express from 'express';
-import Novel from '../models/Novel.js';
-import Chapter from '../models/Chapter.js';
+import Novel from './Novel.js';
+import Chapter from './Chapter.js';
 
 const router = express.Router();
 
