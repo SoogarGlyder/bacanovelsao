@@ -158,7 +158,7 @@ return (
     </main>
 
     <aside className={styles.rightSidebar}>
-      <img src="/ceritanya-iklan.svg" alt="Banner" style={{ height: '600px' }} />
+      {/* <img src="/ceritanya-iklan.svg" alt="Banner" style={{ height: '600px' }} /> */}
     </aside>
 
   </div>
