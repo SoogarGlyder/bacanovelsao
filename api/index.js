@@ -1,11 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { connectDB } from './db.js';
-// import novelRoutes from './novels.js'; 
-// import chapterRoutes from './chapters.js';
-
-const novelRoutes = require('./novels.js').default; 
-const chapterRoutes = require('./chapters.js').default;
+import novelRoutes from './novels.js'; 
+import chapterRoutes from './chapters.js';
 
 const app = express();
 
