@@ -11,7 +11,7 @@ if (mongoose.connection.readyState === 0) {
       useNewUrlParser: true,
       useUnifiedTopology: true,
   }).then(() => {
-      // (Koneksi berhasil)
+      "Koneksi berhasil"
   }).catch(err => {
       console.error('MongoDB connection error in Vercel:', err);
   });
