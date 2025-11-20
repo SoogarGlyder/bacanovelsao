@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { connectDB } from './config/db.js';
 import novelRoutes from './routes/novels.js'; 
-import chapterRoutes from '../routes/chapters.js';
+import chapterRoutes from './routes/chapters.js';
 
 const app = express();
 
