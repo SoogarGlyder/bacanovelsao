@@ -1,9 +1,6 @@
 import express from 'express';
-// import Novel from './Novel.js';
-// import Chapter from './Chapter.js';
-
-const Chapter = require('./Chapter.js').default; 
-const Novel = require('./Novel.js').default;
+import Novel from './Novel';
+import Chapter from './Chapter';
 
 const router = express.Router();
 
