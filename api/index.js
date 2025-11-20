@@ -2,11 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { connectDB } from './config/db.js';
 import novelRoutes from './routes/novels.js'; 
-import chapterRoutes from './routes/chapters.js';
-
-const MONGODB_URI = process.env.MONGO_URI; 
-
-connectDB(); 
+import chapterRoutes from '../routes/chapters.js';
 
 const app = express();
 
@@ -19,5 +15,7 @@ app.use('/chapters', chapterRoutes);
 app.get('/api', (req, res) => {
     res.status(200).send('API is running via Vercel Serverless Function.');
 });
-
-export default app;
+export default async (req, res) => {
+    await connectDB(); 
+    return app(req, res); 
+};
