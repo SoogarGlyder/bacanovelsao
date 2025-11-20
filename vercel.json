@@ -2,7 +2,6 @@
   "functions": {
     "api/index.cjs": {
       "runtime": "nodejs@18.x" 
-      /* Kita mengubah 'nodejs18.x' menjadi 'nodejs@18.x' */
     }
   },
   "rewrites": [
