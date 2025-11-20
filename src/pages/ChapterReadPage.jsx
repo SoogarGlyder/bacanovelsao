@@ -44,7 +44,7 @@ useEffect(() => {
         setPrevChapterId(null);
         setNextChapterId(null);
 
-        const chapterResponse = await fetch(`http://localhost:2612/api/chapters/${chapterId}`);
+        const chapterResponse = await fetch(`/api/chapters/${chapterId}`);
         if (!chapterResponse.ok) {
           throw new Error('Chapter tidak ditemukan');}
 
@@ -54,7 +54,7 @@ useEffect(() => {
 
         const novelId = chapterData.novel._id;
 
-        const allChaptersResponse = await fetch(`http://localhost:2612/api/chapters/novel/${novelId}`);
+        const allChaptersResponse = await fetch(`/api/chapters/novel/${novelId}`);
         if (!allChaptersResponse.ok) {
           throw new Error('Gagal mengambil daftar chapter');}
 

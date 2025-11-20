@@ -22,7 +22,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:2612/api/novels?serie=${activeSerie}`);
+        const response = await fetch(`/api/novels?serie=${activeSerie}`);
         if (!response.ok) throw new Error('Gagal mengambil data novel');
         const data = await response.json();
         setNovels(data);
@@ -37,7 +37,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
 
   const handleNovelClick = async (novelId) => {
     try {
-      const response = await fetch(`http://localhost:2612/api/novels/find-first-chapter/${novelId}`);
+      const response = await fetch(`/api/novels/find-first-chapter/${novelId}`);
       if (!response.ok) {
         throw new Error('Tidak bisa menemukan chapter pertama.');
       }
