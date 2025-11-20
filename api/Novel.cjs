@@ -24,4 +24,5 @@ const novelSchema = new mongoose.Schema({
 
 const Novel = mongoose.model("Novel", novelSchema);
 
-export default Novel;
+// export default Novel;
+module.exports = Novel;
