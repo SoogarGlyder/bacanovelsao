@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/index.js": {
-      "includeFiles": "api/routes/**, api/models/**"
+    "api/index.cjs": {
+      "runtime": "nodejs18.x"
     }
   },
   "rewrites": [
