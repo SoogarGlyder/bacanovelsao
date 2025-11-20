@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/novels', novelRoutes);
 app.use('/chapters', chapterRoutes);
 
-app.get('/api', (req, res) => {
+app.get('/api', (_req, res) => {
     res.status(200).send('API is running via Vercel Serverless Function.');
 });
 export default async (req, res) => {
