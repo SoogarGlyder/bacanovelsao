@@ -1,21 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import { connectDB } from './config/db.js';
 import novelRoutes from './routes/novels.js'; 
 import chapterRoutes from './routes/chapters.js';
 
 const MONGODB_URI = process.env.MONGO_URI; 
 
-if (mongoose.connection.readyState === 0) {
-  mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-  }).then(() => {
-      "Koneksi berhasil"
-  }).catch(err => {
-      console.error('MongoDB connection error in Vercel:', err);
-  });
-}
+connectDB(); 
 
 const app = express();
 
