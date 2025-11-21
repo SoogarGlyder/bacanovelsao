@@ -35,22 +35,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        const novel = await Novel.findById(req.params.id);
-
-        if (!novel) {
-            return res.status(440).json({ message: 'Novel tidak ditemukan' });
-        }
-
-        res.status(200).json(novel);
-
-    } catch (error) {
-        console.error('Error saat mengambil satu novel:', error.message);
-        res.status(500).json({ message: 'Server Error' });
-    }
-});
-
 router.get('/find-first-chapter/:novelId', async (req, res) => {
   try {
     const novelId = req.params.novelId;
@@ -68,6 +52,22 @@ router.get('/find-first-chapter/:novelId', async (req, res) => {
     console.error('Error saat mencari chapter pertama:', error.message);
     res.status(500).json({ message: 'Server Error' });
   }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const novel = await Novel.findById(req.params.id);
+
+        if (!novel) {
+            return res.status(440).json({ message: 'Novel tidak ditemukan' });
+        }
+
+        res.status(200).json(novel);
+
+    } catch (error) {
+        console.error('Error saat mengambil satu novel:', error.message);
+        res.status(500).json({ message: 'Server Error' });
+    }
 });
 
 router.put('/:id', async (req, res) => {
