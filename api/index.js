@@ -15,17 +15,16 @@ app.get('/', (req, res) => {
     res.status(200).send('API is running via Vercel Serverless Function.');
 });
 
-et isConnected = false; 
-
 export default async function handler(req, res) {
-    if (!isConnected) {
-        try {
-            await connectDB();
-            isConnected = true; 
-        } catch (error) {
-            console.error('Database connection failed:', error);
-            return res.status(500).json({ error: 'Database connection failed' });
-        }
+    
+    try {
+        await connectDB();
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        return res.status(500).json({ 
+            error: 'Database connection failed. Check Vercel logs and MONGO_URI.' 
+        });
     }
+    
     return app(req, res);
 }
