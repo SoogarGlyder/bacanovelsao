@@ -5,6 +5,7 @@
       "src": "package.json", 
       "use": "@vercel/static-build",
       "config": {
+        "runtime": "nodejs18.x",
         "outputDirectory": "dist", 
         "buildCommand": "npm run build"
       }
