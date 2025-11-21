@@ -50,7 +50,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
   };
 
   const renderContent = () => {
-    if (loading) return <div>Mengaktifkan server... Mohon tunggu sebentar sekitar 20-30 detik.</div>;
+    if (loading) return <div>Mengaktifkan server... Mohon tunggu sebentar.</div>;
     if (error) return <div>Error: {error}</div>;
     if (novels.length === 0) return <div>Tidak ada novel ditemukan.</div>;
     return (
