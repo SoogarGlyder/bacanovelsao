@@ -52,7 +52,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
   const renderContent = () => {
     if (loading) return <div>Mengaktifkan server... Mohon tunggu sebentar.</div>;
     if (error) return <div>Error: {error}</div>;
-    if (novels.length === 0) return <div>Tidak ada novel ditemukan.</div>;
+    if (novels.length === 0) return <div>Tidak ada novel yang ditemukan.</div>;
     return (
       <div className={styles.novelGallery}>
         {novels.map((novel) => (
