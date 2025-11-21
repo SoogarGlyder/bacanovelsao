@@ -11,10 +11,21 @@ app.use(express.json());
 app.use('/novels', novelRoutes);
 app.use('/chapters', chapterRoutes);
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).send('API is running via Vercel Serverless Function.');
 });
-export default async (req, res) => {
-    await connectDB(); 
-    return app(req, res); 
-};
+
+et isConnected = false; 
+
+export default async function handler(req, res) {
+    if (!isConnected) {
+        try {
+            await connectDB();
+            isConnected = true; 
+        } catch (error) {
+            console.error('Database connection failed:', error);
+            return res.status(500).json({ error: 'Database connection failed' });
+        }
+    }
+    return app(req, res);
+}
