@@ -27,15 +27,5 @@
       "src": "/(.*)", 
       "dest": "dist/index.html" 
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/" 
-    }
   ]
 }
