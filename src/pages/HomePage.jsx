@@ -5,7 +5,7 @@ function HomePage() {
   const { setPageSerie, setDropdownSerie, setIsListOpen } = useOutletContext();
 
   useEffect(() => {
-    setPageSerie('main');       
+    setPageSerie('main');
     setDropdownSerie('main');
     setIsListOpen(true);
   }, []);
