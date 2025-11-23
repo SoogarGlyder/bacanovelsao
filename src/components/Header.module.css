@@ -1,0 +1,131 @@
+.headerBar {
+  position: fixed;
+  max-width: 1440px;
+  display: grid;
+  justify-self: center;
+  top: 0;
+  width: 100%;
+  z-index: 1001; 
+  background-color: white; 
+}
+.containerImgHeader {
+    display: flex;
+    justify-content: center;
+    height: var(--logo-height);
+    margin-top: var(--logo-margin-top);
+    margin-bottom: var(--logo-margin-bottom);
+}
+.imgHeader {
+    cursor: pointer;
+}
+.navContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: var(--nav-height);
+    background-color: whitesmoke;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.navContainer::-webkit-scrollbar {
+    display: none;
+}
+.navContent {
+    display: grid;
+    place-items: center;
+    padding: 0 20px;
+    width: 100%;
+    margin: auto;
+    height: 35px;
+    color: #38b6ff;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.navContent:hover {
+    background-color: #eee;
+    color: #38b6ff;
+    font-size: 120%;
+}
+.navContent.active {
+    background-color: #38b6ff;
+    color: whitesmoke;
+    font-size: 130%;
+}
+.novelListWrapper {
+  position: fixed;
+  justify-self: center;
+  top: var(--total-header-height);
+  width: 100%;
+  max-width: 1440px;
+  z-index: 1000; 
+  height: calc(100vh - var(--total-header-height));;
+  overflow-y: auto;
+  background-color: white;
+  padding: 20px;
+  /* box-shadow: inset 0 5px 10px -5px rgba(0,0,0,0.1), 
+              0 4px 8px rgba(0,0,0,0.1); */
+}
+.novelGallery {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 25px; 
+    /* max-width: 1200px; */
+    margin: 0 auto;
+}
+
+.contentCover {
+    text-align: center;
+    width: 330px; 
+    text-decoration: none; 
+    color: inherit; 
+    background-color: white; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.contentCover:hover {
+    transform: translateY(-5px) scale(1.02); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.contentCoverImg {
+    width: 100%; 
+    /* height: 350px; */
+    object-fit: cover; 
+    display: block; 
+}
+.captionLink {
+    margin: 0; 
+    padding: 15px 10px; 
+    font-size: 0.95em; 
+    font-weight: 600; 
+    min-height: 60px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .navContainer {
+    justify-content: flex-start;
+  }
+  .navContent {
+    padding: 0 20px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .navContent {
+    font-size: 0.9em;
+}
+  .navContent:hover {
+    font-size: 1em;
+}
+  .navContent.active {
+    font-size: 1.1em;
+}
+}
