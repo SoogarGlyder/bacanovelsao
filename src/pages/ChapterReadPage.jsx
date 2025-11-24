@@ -117,7 +117,6 @@ if (error) {
 
 return (
     <div className={styles.holyGrailLayout}>
-
       <aside className={styles.leftSidebar}>
       <button
         className={styles.mobileToggle}
@@ -146,6 +145,25 @@ return (
       <main className={styles.mainContent}>
         {chapter && (
           <>
+            <div className={styles.chapterHeader}>
+              <h1>{chapter.novel.title}</h1>
+              <h2>{chapter.title}</h2>
+              {/* <h4>Chapter {chapter.chapter_number}</h4> */}
+            </div>
+
+            <hr className={styles.divider} />
+
+            <div className={styles.content}>
+              {(chapter.content || '').split('\n').map((paragraph, index) => (
+                <p 
+                  key={index}
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
+              ))}
+            </div>
+
+            <hr className={styles.divider} style={{ marginTop: '30px' }} />
+
             <div className={styles.navigation}>
               <button 
                 onClick={() => navigate(createNewChapterUrl(prevChapterId))} 
@@ -164,16 +182,17 @@ return (
         )}
       </main>
 
-    <aside className={styles.rightSidebar}>
-      <ins className="adsbygoogle"
-           style={{display: 'block'}}
-           data-ad-client="ca-pub-4365395677457990"
-           data-ad-slot="4896743654"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </aside>
+      <aside className={styles.rightSidebar}>
+        <ins key={chapterSlug}
+          className="adsbygoogle"
+          style={{display: 'block'}}
+          data-ad-client="ca-pub-4365395677457990"
+          data-ad-slot="4896743654"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      </aside>
 
-  </div>
+    </div>
 );
 }
 
