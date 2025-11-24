@@ -14,7 +14,7 @@ const router = (
     <Routes>
       <Route path="/" element={<App/>}>
         <Route index element={<HomePage/>}/>
-        <Route path="chapter/:id" element={<ChapterReadPage/>}/>
+        <Route path=":novelSlug/:chapterSlug" element={<ChapterReadPage/>}/>
       </Route>
     </Routes>
   </BrowserRouter>

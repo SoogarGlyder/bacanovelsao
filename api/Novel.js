@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+const generateSlug = (text) => {
+    return text.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+};
+
 const novelSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -8,6 +16,11 @@ const novelSchema = new mongoose.Schema({
     },
     serie: {
         type: String,
+        required: true
+    },
+    novel_slug: {
+        type: String,
+        unique: true,
         required: true
     },
     synopsis: {
@@ -20,6 +33,13 @@ const novelSchema = new mongoose.Schema({
     },
 }, {
     timestamps: true
+});
+
+novelSchema.pre('validate', function(next) {
+    if (this.isModified('title') || (this.isNew && !this.novel_slug)) {
+        this.novel_slug = generateSlug(this.title); 
+    }
+    next();
 });
 
 const Novel = mongoose.model("Novel", novelSchema);
