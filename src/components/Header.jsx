@@ -35,7 +35,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
     fetchNovels();
   }, [activeSerie]);
 
-  const handleNovelClick = async (novelId) => {
+  const handleNovelClick = async (novelId, novelSlug) => {
     try {
       const response = await fetch(`/api/novels/find-first-chapter/${novelId}`);
       if (!response.ok) {
@@ -43,7 +43,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
       }
       const data = await response.json();
       onNovelClick(); 
-      navigate(`/chapter/${data.firstChapterId}`);
+      navigate(`/${novelSlug}/${data.firstChapterSlug}`); 
     } catch (err) {
       console.error(err);
     }
@@ -59,7 +59,7 @@ function NovelList({ activeSerie, onNovelClick, navigate }) {
           <div 
             key={novel._id} 
             className={styles.contentCover}
-            onClick={() => handleNovelClick(novel._id)}
+            onClick={() => handleNovelClick(novel._id, novel.novel_slug)} 
             style={{ cursor: 'pointer' }}
           >
             <img 
