@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useOutletContext } from 'react-router-dom';
 import styles from './ChapterReadPage.module.css';
+import { useChapterData } from '../hooks/useNovelData.js';
+import DOMPurify from 'dompurify';
 
 function ChapterReadPage() {
   const { novelSlug, chapterSlug } = useParams();
   const navigate = useNavigate();
   const { setPageSerie } = useOutletContext();
-  const [chapter, setChapter] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [prevChapterId, setPrevChapterId] = useState(null);
-  const [nextChapterId, setNextChapterId] = useState(null);
-  const [allChapters, setAllChapters] = useState([]);
   const [isListVisible, setIsListVisible] = useState(window.innerWidth > 767);
   
+  const {
+    chapter, 
+    loading, 
+    error, 
+    prevChapterSlug, 
+    nextChapterSlug, 
+    allChapters
+  } = useChapterData(novelSlug, chapterSlug, setPageSerie);
+
   const handleChapterClick = () => {
     if (window.innerWidth <= 767) {
       setIsListVisible(false);
@@ -23,88 +28,32 @@ function ChapterReadPage() {
   const createNewChapterUrl = (targetChapterSlug) => {
       return `/${novelSlug}/${targetChapterSlug}`; 
   };
-
-useEffect(() => {
-  const handleResize = () => {
-    if (window.innerWidth > 767) {
-      setIsListVisible(true);
-    } else {
-      setIsListVisible(false);
-    }
-  };
-
-  window.addEventListener('resize', handleResize);
-
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  };
-}, []);
-
-useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        setPrevChapterId(null);
-        setNextChapterId(null);
-
-        const chapterResponse = await fetch(`/api/chapters/slug/${chapterSlug}?novelSlug=${novelSlug}`);
-        if (!chapterResponse.ok) {
-          throw new Error('Chapter tidak ditemukan');}
-
-        const chapterData = await chapterResponse.json();
-        setChapter(chapterData);
-        setPageSerie(chapterData.novel.serie);
-
-        document.title = `${chapterData.novel.title} - ${chapterData.title}`;
-
-        const novelId = chapterData.novel._id;
-        const currentChapterSlug = chapterData.chapter_slug;
-
-        const allChaptersResponse = await fetch(`/api/chapters/novel/${novelId}`);
-        if (!allChaptersResponse.ok) {
-          throw new Error('Gagal mengambil daftar chapter');}
-
-        const allChaptersData = await allChaptersResponse.json();
-        setAllChapters(allChaptersData);
-        setPageSerie(chapterData.novel.serie);
-
-        const currentIndex = allChaptersData.findIndex(c => c.chapter_slug === currentChapterSlug);
-
-        if (currentIndex > 0) {
-          setPrevChapterId(allChaptersData[currentIndex - 1].chapter_slug);
-        }
-
-        if (currentIndex < allChaptersData.length - 1) {
-          setNextChapterId(allChaptersData[currentIndex + 1].chapter_slug);
-        }
-
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 767) {
+        setIsListVisible(true);
+      } else {
+        setIsListVisible(false);
       }
     };
-    fetchData();
-}, [chapterSlug, setPageSerie, novelSlug]);
 
-useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  
+  useEffect(() => {
     if (chapter) { 
         try {
-            if (window.adsbygoogle && window.adsbygoogle.loaded) {
+            if (window.adsbygoogle) {
                 (window.adsbygoogle = window.adsbygoogle || []).push({});
             }
         } catch (e) {
             console.error("AdSense execution failed:", e);
         }
     }
-}, [chapter]);
-
-useEffect(() => {
-    return () => {
-        document.title = "Baca Novel SAO";
-    };
-}, []);
+  }, [chapter]);
 
 
 if (loading) {
@@ -148,32 +97,36 @@ return (
             <div className={styles.chapterHeader}>
               <h1>{chapter.novel.title}</h1>
               <h2>{chapter.title}</h2>
-              {/* <h4>Chapter {chapter.chapter_number}</h4> */}
             </div>
 
             <hr className={styles.divider} />
 
             <div className={styles.content}>
-              {(chapter.content || '').split('\n').map((paragraph, index) => (
-                <p 
-                  key={index}
-                  dangerouslySetInnerHTML={{ __html: paragraph }}
-                />
-              ))}
-            </div>
+              {(chapter.content || '').split('\n').map((paragraph, index) => {
+                const cleanedHtml = DOMPurify.sanitize(paragraph);
+                if (!cleanedHtml.trim()) {
+                    return null;
+                }
 
-            <hr className={styles.divider} style={{ marginTop: '30px' }} />
+                return (
+                    <p 
+                      key={index}
+                      dangerouslySetInnerHTML={{ __html: cleanedHtml }}
+                    />
+                );
+              })}
+            </div>
 
             <div className={styles.navigation}>
               <button 
-                onClick={() => navigate(createNewChapterUrl(prevChapterId))} 
-                disabled={!prevChapterId}
+                onClick={() => navigate(createNewChapterUrl(prevChapterSlug))} 
+                disabled={!prevChapterSlug}
               >
                 &laquo; Chapter Sebelumnya
               </button>
               <button 
-                onClick={() => navigate(createNewChapterUrl(nextChapterId))}
-                disabled={!nextChapterId}
+                onClick={() => navigate(createNewChapterUrl(nextChapterSlug))}
+                disabled={!nextChapterSlug}
               >
                 Chapter Selanjutnya &raquo;
               </button>
@@ -183,13 +136,13 @@ return (
       </main>
 
       <aside className={styles.rightSidebar}>
-        <ins key={chapterSlug}
-          className="adsbygoogle"
-          style={{display: 'block'}}
-          data-ad-client="ca-pub-4365395677457990"
-          data-ad-slot="4896743654"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
+        <ins className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-4365395677457990"
+            data-ad-slot="4896743654"
+            data-ad-format="auto"
+            data-full-width-responsive="true">
+        </ins>
       </aside>
 
     </div>
