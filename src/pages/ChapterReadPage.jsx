@@ -89,6 +89,18 @@ useEffect(() => {
 }, [chapterSlug, setPageSerie, novelSlug]);
 
 useEffect(() => {
+    if (chapter) { 
+        try {
+            if (window.adsbygoogle && window.adsbygoogle.loaded) {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            }
+        } catch (e) {
+            console.error("AdSense execution failed:", e);
+        }
+    }
+}, [chapter]);
+
+useEffect(() => {
     return () => {
         document.title = "Baca Novel SAO";
     };
