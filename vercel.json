@@ -13,17 +13,20 @@
     },
     {
       "src": "packages/server/api/index.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "runtime": "nodejs18.x"
+      }
     }
   ],
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "packages/server/api/index.js"
+      "destination": "/api/index.js"
     },
     {
       "source": "/(.*)",
-      "destination": "/packages/client/dist/index.html"
+      "destination": "/index.html"
     }
   ]
 }
