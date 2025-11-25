@@ -7,26 +7,23 @@
       "use": "@vercel/static-build",
       "config": {
         "runtime": "nodejs18.x",
-        "outputDirectory": "packages/client/dist",
+        "outputDirectory": "dist", 
         "buildCommand": "npm run build --workspace=client"
       }
     },
     {
       "src": "packages/server/api/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "runtime": "nodejs18.x"
-      }
+      "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "destination": "packages/server/api/index.js"
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "packages/client/dist/index.html" 
     }
   ]
 }
