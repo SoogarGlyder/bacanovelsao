@@ -23,11 +23,11 @@
     },
     {
       "source": "/assets/(.*)",
-      "destination": "/packages/client/dist/assets/$1" 
+      "destination": "/packages/client/assets/$1" 
     },
     {
       "source": "/(.*)",
-      "destination": "/packages/client/dist/index.html"
+      "destination": "/packages/client/index.html" 
     }
   ]
 }
