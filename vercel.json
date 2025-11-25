@@ -7,7 +7,7 @@
       "use": "@vercel/static-build",
       "config": {
         "runtime": "nodejs18.x",
-        "outputDirectory": "dist", 
+        "outputDirectory": "dist-client", 
         "buildCommand": "npm run build --workspace=client"
       }
     },
@@ -23,7 +23,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "index.html" 
+      "destination": "dist-client/index.html" 
     }
   ]
 }
