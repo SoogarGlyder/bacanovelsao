@@ -26,6 +26,10 @@
       "destination": "/packages/client/assets/$1" 
     },
     {
+      "source": "/header-sao.svg",
+      "destination": "/packages/client/header-sao.svg" 
+    },
+    {
       "source": "/(.*)",
       "destination": "/packages/client/index.html" 
     }
