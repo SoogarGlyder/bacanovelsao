@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useOutletContext } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import styles from './ChapterReadPage.module.css';
 import { useChapterData } from '../hooks/useNovelData.js';
-import DOMPurify from 'dompurify';
 
 function ChapterReadPage() {
   const { novelSlug, chapterSlug } = useParams();
@@ -43,17 +43,17 @@ function ChapterReadPage() {
     };
   }, []);
   
-  useEffect(() => {
-    if (chapter) { 
-        try {
-            if (window.adsbygoogle) {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            }
-        } catch (e) {
-            console.error("AdSense execution failed:", e);
-        }
-    }
-  }, [chapter]);
+  // useEffect(() => {
+  //   if (chapter) { 
+  //       try {
+  //           if (window.adsbygoogle) {
+  //               (window.adsbygoogle = window.adsbygoogle || []).push({});
+  //           }
+  //       } catch (e) {
+  //           console.error("AdSense execution failed:", e);
+  //       }
+  //   }
+  // }, [chapter]);
 
 
 if (loading) {
@@ -136,13 +136,13 @@ return (
       </main>
 
       <aside className={styles.rightSidebar}>
-        <ins className="adsbygoogle"
+        {/* <ins className="adsbygoogle"
             style={{ display: 'block' }}
             data-ad-client="ca-pub-4365395677457990"
             data-ad-slot="4896743654"
             data-ad-format="auto"
             data-full-width-responsive="true">
-        </ins>
+        </ins> */}
       </aside>
 
     </div>

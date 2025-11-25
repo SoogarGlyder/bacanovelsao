@@ -19,9 +19,9 @@ function NovelList({ activeSerie, onNovelClick }) {
   };
 
   const renderContent = () => {
-    if (loading) return <div className={styles.novelListWrapper} style={{textAlign: 'center', padding: '50px'}}>Mengaktifkan server... Mohon tunggu sebentar.</div>;
-    if (error) return <div className={styles.novelListWrapper} style={{textAlign: 'center', padding: '50px'}}>Error: {error}</div>;
-    if (novels.length === 0) return <div className={styles.novelListWrapper} style={{textAlign: 'center', padding: '50px'}}>Tidak ada novel yang ditemukan.</div>;
+    if (loading) return <div className={styles.novelListWrapper}>Mengaktifkan server... Mohon tunggu sebentar.</div>;
+    if (error) return <div className={styles.novelListWrapper}>Error: {error}</div>;
+    if (novels.length === 0) return <div className={styles.novelListWrapper}>Tidak ada novel yang ditemukan.</div>;
     
     return (
       <div className={styles.novelGallery}>

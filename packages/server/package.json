@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Express API for Novel Project (Vercel Serverless)",
+  "main": "api/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "dotenv -e ./config/.env -- node api/index.js"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "dotenv": "^17.2.3",
+    "dotenv-cli": "^11.0.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.3"
+  }
+}

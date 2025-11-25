@@ -1,31 +1,29 @@
 {
   "version": 2,
+  "installCommand": "npm install",
   "builds": [
     {
-      "src": "package.json", 
+      "src": "packages/client/package.json",
       "use": "@vercel/static-build",
       "config": {
         "runtime": "nodejs18.x",
-        "outputDirectory": "dist", 
-        "buildCommand": "npm run build"
+        "outputDirectory": "packages/client/dist",
+        "buildCommand": "npm run build --workspace=client"
       }
     },
     {
-      "src": "api/index.js", 
-      "use": "@vercel/node",
-      "config": {
-        "runtime": "nodejs18.x"
-      }
+      "src": "packages/server/api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)", 
-      "destination": "/api/index.js"
+      "source": "/api/(.*)",
+      "destination": "packages/server/api/index.js"
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "packages/client/dist/index.html"
     }
   ]
 }
