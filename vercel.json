@@ -22,8 +22,12 @@
       "destination": "packages/server/api/index.js"
     },
     {
+      "source": "/assets/(.*)",
+      "destination": "/packages/client/dist/assets/$1" 
+    },
+    {
       "source": "/(.*)",
-      "destination": "/packages/client/index.html" 
+      "destination": "/packages/client/dist/index.html"
     }
   ]
 }
