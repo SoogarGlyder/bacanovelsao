@@ -70,7 +70,7 @@ function Header({ activeSerie, isListOpen, dropdownSerie, setDropdownSerie, setI
       <div className={styles.headerBar}>
         <div className={styles.containerImgHeader}>
             <a href="/" className={styles.imgHeader}>
-                <img src="/header-sao.svg"
+                <img src="./public/header-sao.svg"
                      alt="Logo"
                      style={{ height: '100%' }}
                 />
