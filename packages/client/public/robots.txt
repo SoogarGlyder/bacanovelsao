@@ -1,0 +1,11 @@
+# packages/client/public/robots.txt
+
+# Mengizinkan semua robot (Google, Bing, dll.) untuk meng-crawl seluruh situs.
+User-agent: *
+
+# Mengizinkan akses ke semua path di situs.
+Allow: /
+
+# Mendefinisikan lokasi Sitemap dinamis Anda. 
+# Vercel akan menyajikan file ini dari root domain Anda.
+Sitemap: https://bacanovelsao.vercel.app/sitemap.xml
