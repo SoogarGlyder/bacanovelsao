@@ -84,17 +84,7 @@ function Header({ activeSerie, isListOpen, dropdownSerie, setDropdownSerie, setI
           style={maskStyle}
           >
           {seriesTabs.map((tab) => {
-            const isThisTabActive = activeSerie === tab.id;
-            const isOnHomePage = location.pathname === '/';
-
-            let showAsActive = false;
-
-            if (isOnHomePage) {
-              showAsActive = isThisTabActive && isListOpen;
-            } else {
-              showAsActive = isThisTabActive;
-            }
-
+            const showAsActive = activeSerie === tab.id;
             return (
               <div
                 key={tab.id}

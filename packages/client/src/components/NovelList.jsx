@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import { useNovelList, useFirstChapterFetcher } from '../hooks/useNovelData.js';
@@ -8,13 +8,21 @@ function NovelList({ activeSerie, onNovelClick }) {
   const { novels, loading, error } = useNovelList(activeSerie);
   const fetchFirstChapterSlug = useFirstChapterFetcher();
   
+  const [loadingNovelId, setLoadingNovelId] = useState(null);
+  
   const handleNovelClick = async (novelId, novelSlug) => {
+    if (loadingNovelId) return; 
+
+    setLoadingNovelId(novelId);
+    
     try {
       const firstChapterSlug = await fetchFirstChapterSlug(novelId); 
       onNovelClick(); 
       navigate(`/${novelSlug}/${firstChapterSlug}`); 
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoadingNovelId(null);
     }
   };
 
@@ -25,23 +33,28 @@ function NovelList({ activeSerie, onNovelClick }) {
     
     return (
       <div className={styles.novelGallery}>
-        {novels.map((novel) => (
-          <div 
-            key={novel._id} 
-            className={styles.contentCover}
-            onClick={() => handleNovelClick(novel._id, novel.novel_slug)} 
-            style={{ cursor: 'pointer' }}
-          >
-            <img 
-              src={novel.cover_image || 'https://via.placeholder.com/250x350'} 
-              className={styles.contentCoverImg} 
-              alt={novel.title} 
-            />
-            <figcaption className={styles.captionLink}>
-              {novel.title}
-            </figcaption>
-          </div>
-        ))}
+        {novels.map((novel) => {
+          const isLoading = loadingNovelId === novel._id;
+          
+          return (
+            <div 
+              key={novel._id} 
+              className={styles.contentCover}
+              onClick={() => handleNovelClick(novel._id, novel.novel_slug)} 
+              style={{ cursor: isLoading ? 'wait' : 'pointer', opacity: isLoading ? 0.7 : 1 }} 
+              disabled={isLoading}
+            >
+              <img 
+                src={novel.cover_image || 'https://via.placeholder.com/250x350'} 
+                className={styles.contentCoverImg} 
+                alt={novel.title} 
+              />
+              <figcaption className={styles.captionLink}>
+                {novel.title} {isLoading && '...'}
+              </figcaption>
+            </div>
+          );
+        })}
       </div>
     );
   };
