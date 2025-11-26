@@ -1,10 +1,11 @@
 import express from 'express';
 import Novel from '../models/Novel.js';
 import Chapter from '../models/Chapter.js';
+import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
     try {
         const { title, serie, synopsis, cover_image, novel_slug } = req.body;
         const newNovel = new Novel({
@@ -60,7 +61,7 @@ router.get('/:id', async (req, res) => {
         const novel = await Novel.findById(req.params.id);
 
         if (!novel) {
-            return res.status(440).json({ message: 'Novel tidak ditemukan' });
+            return res.status(404).json({ message: 'Novel tidak ditemukan' })
         }
 
         res.status(200).json(novel);
@@ -71,7 +72,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
     try {
         const novel = await Novel.findById(req.params.id);
 
@@ -79,11 +80,8 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Novel tidak ditemukan' });
         }
         
-        // Menerapkan semua field dari req.body ke objek Novel Mongoose
         novel.set(req.body);
 
-        // Menggunakan novel.save() untuk memicu pre('validate') hook (pembuatan slug otomatis)
-        // Ini memastikan novel_slug diperbarui jika title diubah, atau diisi jika tidak ada (untuk data lama)
         const updatedNovel = await novel.save(); 
 
         res.status(200).json(updatedNovel);
@@ -94,7 +92,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+rrouter.delete('/:id', protect, async (req, res) => {
     try {
         const novelId = req.params.id;
         const deletedNovel = await Novel.findByIdAndDelete(novelId);

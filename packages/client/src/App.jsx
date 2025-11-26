@@ -31,7 +31,7 @@ function App() {
       />
       
       <main style={{ marginTop: 'var(--total-header-height)' }}>
-        <Outlet context={{ setPageSerie, setDropdownSerie, setIsListOpen }} />
+        <Outlet context={{ setPageSerie, setDropdownSerie, setIsListOpen, isListOpen, activeSerie }} />
       </main>
     </>
   );

@@ -10,14 +10,14 @@ function HomePage() {
     setIsListOpen(true);
   }, []);
   
-  const textStyle = {
-    display: isListOpen ? 'none' : 'block'
-  };
-
   return (
     <div className="container">
-      <h1 style={textStyle}>Selamat Datang</h1>
-      <h3 style={textStyle}>Silakan pilih seri novel dari navigasi di atas.</h3>
+      {!isListOpen && (
+        <>
+          <h1>Selamat Datang</h1>
+          <h3>Silakan pilih seri novel dari navigasi di atas.</h3>
+        </>
+      )}
     </div>
   );
 }

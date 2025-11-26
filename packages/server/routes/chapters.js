@@ -1,10 +1,11 @@
 import express from 'express';
-import Chapter from '../models/Chapter.js'
+import Chapter from '../models/Chapter.js';
 import Novel from '../models/Novel.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
     try {
         const { title, novel, chapter_slug, chapter_number, content } = req.body; 
         
@@ -53,16 +54,24 @@ router.get('/slug/:chapterSlug', async (req, res) => {
             return res.status(404).json({ message: 'Novel tidak ditemukan berdasarkan slug' });
         }
 
-        const chapter = await Chapter.findOne({ 
-            novel: novelInfo._id, 
-            chapter_slug: chapterSlug 
-        })
-        .populate('novel', 'title serie novel_slug');
+        const [chapter, allChaptersList] = await Promise.all([
+            Chapter.findOne({ 
+                novel: novelInfo._id, 
+                chapter_slug: chapterSlug 
+            }).populate('novel', 'title serie novel_slug'),
+            
+            Chapter.find({ novel: novelInfo._id }, 'title chapter_slug chapter_number')
+                   .sort({ chapter_number: 1 })
+        ]);
 
         if (!chapter) {
             return res.status(404).json({ message: 'Chapter tidak ditemukan' });
         }
-        res.status(200).json(chapter);
+        
+        res.status(200).json({ 
+            chapterDetail: chapter, 
+            allChapters: allChaptersList 
+        });
 
     } catch (error) {
         console.error('Error saat mengambil chapter dengan slug gabungan:', error.message);
@@ -86,7 +95,7 @@ router.get('/:chapterId', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
     const { title, novel, chapter_slug, chapter_number, content } = req.body;
     const chapterData = { title, novel, chapter_slug, chapter_number, content };
     
@@ -116,7 +125,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', protect, async (req, res) => {
     try {
         const deletedChapter = await Chapter.findByIdAndDelete(req.params.id);
         if (!deletedChapter) {

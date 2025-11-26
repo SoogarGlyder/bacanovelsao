@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// =================================================================
-// 1. Hook untuk mengambil daftar novel berdasarkan seri
-// =================================================================
-
+// ====================================================================
+// 1. Hook untuk mengambil daftar novel berdasarkan seri (TIDAK DIUBAH)
+// ====================================================================
 export function useNovelList(serie) {
+  // ... (Kode useNovelList tetap sama) ...
   const [novels, setNovels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,11 +32,12 @@ export function useNovelList(serie) {
   return { novels, loading, error };
 }
 
-// =================================================================
-// 2. Utility Hook untuk menemukan slug chapter pertama
-// =================================================================
+// ====================================================================
+// 2. Utility Hook untuk menemukan slug chapter pertama (TIDAK DIUBAH)
+// ===================================================================
 
 export const useFirstChapterFetcher = () => {
+  // ... (Kode useFirstChapterFetcher tetap sama) ...
   const fetchFirstChapterSlug = useCallback(async (novelId) => {
     try {
       const response = await fetch(`/api/novels/find-first-chapter/${novelId}`);
@@ -54,9 +55,9 @@ export const useFirstChapterFetcher = () => {
   return fetchFirstChapterSlug;
 };
 
-// =================================================================
+// ===================================================================
 // 3. Hook untuk mengambil data chapter, daftar chapter, dan navigasi
-// =================================================================
+// ===================================================================
 
 export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
   const [chapter, setChapter] = useState(null);
@@ -76,20 +77,26 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
         setPrevChapterSlug(null);
         setNextChapterSlug(null);
 
-        const chapterResponse = await fetch(`/api/chapters/slug/${chapterSlug}?novelSlug=${novelSlug}`);
-        if (!chapterResponse.ok) throw new Error('Chapter tidak ditemukan');
+        const response = await fetch(`/api/chapters/slug/${chapterSlug}?novelSlug=${novelSlug}`);
+        
+        if (!response.ok) {
+          const errorText = await response.text(); 
+          throw new Error(errorText || 'Chapter atau Novel tidak ditemukan.');
+        }
 
-        const chapterData = await chapterResponse.json();
+        const data = await response.json(); 
+        
+        const chapterData = data.chapterDetail;
+        const allChaptersData = data.allChapters; 
+
+        if (!chapterData || !chapterData.novel || !allChaptersData) {
+            throw new Error('Struktur data API tidak lengkap atau Novel tidak terisi.');
+        }
+
         setChapter(chapterData);
         setPageSerie(chapterData.novel.serie);
         document.title = `${chapterData.novel.title} - ${chapterData.title}`;
 
-        const novelId = chapterData.novel._id;
-        
-        const allChaptersResponse = await fetch(`/api/chapters/novel/${novelId}`);
-        if (!allChaptersResponse.ok) throw new Error('Gagal mengambil daftar chapter');
-
-        const allChaptersData = await allChaptersResponse.json();
         setAllChapters(allChaptersData);
 
         const currentIndex = allChaptersData.findIndex(c => c.chapter_slug === chapterSlug);
@@ -104,6 +111,7 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
 
       } catch (err) {
         setError(err.message);
+        setChapter(null); 
       } finally {
         setLoading(false);
       }
