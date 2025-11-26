@@ -23,6 +23,14 @@
       "destination": "packages/server/api/index.js"
     },
     {
+      "source": "/sitemap.xml",
+      "destination": "packages/server/api/index.js"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/packages/client/robots.txt"
+    },
+    {
       "source": "/assets/(.*)",
       "destination": "/packages/client/assets/$1" 
     },
