@@ -92,7 +92,7 @@ router.put('/:id', protect, async (req, res) => {
     }
 });
 
-rrouter.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protect, async (req, res) => {
     try {
         const novelId = req.params.id;
         const deletedNovel = await Novel.findByIdAndDelete(novelId);

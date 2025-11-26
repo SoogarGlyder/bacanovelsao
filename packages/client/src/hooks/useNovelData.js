@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 // ====================================================================
 // 1. Hook untuk mengambil daftar novel berdasarkan seri (TIDAK DIUBAH)
 // ====================================================================
+
 export function useNovelList(serie) {
-  // ... (Kode useNovelList tetap sama) ...
   const [novels, setNovels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
