@@ -28,6 +28,14 @@ router.post('/', protect, asyncHandler(async (req, res) => {
     res.status(201).json(savedChapter);
 }));
 
+router.get('/all', asyncHandler(async (req, res) => {
+    const chapters = await Chapter.find({})
+        .populate('novel', 'title serie novel_slug') 
+        .sort({ chapter_number: 1 }); 
+        
+    res.status(200).json(chapters);
+}));
+
 router.get('/novel/:novelId', asyncHandler(async (req, res) => {
     const chapters = await Chapter.find({ novel: req.params.novelId },
         'title chapter_slug chapter_number').sort({ chapter_number: 1 });

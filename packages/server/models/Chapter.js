@@ -37,6 +37,8 @@ const chapterSchema = new mongoose.Schema({
 chapterSchema.pre('validate', function(next) {
     if (this.isModified('title') || (this.isNew && !this.chapter_slug)) {
         this.chapter_slug = generateSlug(this.title); 
+    } else if (this.isModified('chapter_slug')) {
+        this.chapter_slug = generateSlug(this.chapter_slug);
     }
     next();
 });

@@ -15,6 +15,14 @@ export default defineConfig({
     },
   },
   build: {
-    assetsDir: 'assets', 
-  },
+    assetsDir: 'assets',
+    outDir: 'dist',
+    
+    rollupOptions: {
+        input: {
+            main: 'packages/client/index.html',
+            admin: 'packages/client/admin.html',
+        }
+    }
+  }  
 })

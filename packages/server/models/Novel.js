@@ -38,6 +38,8 @@ const novelSchema = new mongoose.Schema({
 novelSchema.pre('validate', function(next) {
     if (this.isModified('title') || (this.isNew && !this.novel_slug)) {
         this.novel_slug = generateSlug(this.title); 
+    } else if (this.isModified('novel_slug')) {
+        this.novel_slug = generateSlug(this.novel_slug);
     }
     next();
 });

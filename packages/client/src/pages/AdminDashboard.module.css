@@ -1,0 +1,92 @@
+.adminContainer {
+    max-width: 1440px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.adminContainer h1 {
+    color: #38b6ff;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.adminMenu ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+.adminMenu a {
+    background-color: #38b6ff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.adminMenu a:hover {
+    background-color: #2c93d8;
+}
+
+.novelForm label, .novelForm select {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+}
+.novelForm input[type='text'], .novelForm select, .novelForm textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.novelForm button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #38b6ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+.error {
+    color: white;
+    background-color: #ff6347;
+    padding: 10px;
+    border-radius: 4px;
+}
+.success {
+    color: white;
+    background-color: #4CAF50;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.tableWrapper {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+.novelTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.novelTable th, .novelTable td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+}
+.novelTable th {
+    background-color: #eee;
+    font-weight: bold;
+    color: #333;
+}
+.novelTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

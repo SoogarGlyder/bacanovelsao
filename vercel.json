@@ -9,7 +9,8 @@
         "runtime": "nodejs18.x",
         "rootDirectory": "packages/client",
         "outputDirectory": "dist", 
-        "buildCommand": "npm run build --workspace=client"
+        "buildCommand": "npm run build --workspace=client",
+        "ignore": "**/admin.html,**/src/admin-main.jsx"
       }
     },
     {
