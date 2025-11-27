@@ -17,12 +17,5 @@ export default defineConfig({
   build: {
     assetsDir: 'assets',
     outDir: 'dist',
-    
-    rollupOptions: {
-        input: {
-            main: 'index.html',
-            admin: 'admin.html',
-        }
-    }
   }  
 })
