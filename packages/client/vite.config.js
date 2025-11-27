@@ -20,8 +20,8 @@ export default defineConfig({
     
     rollupOptions: {
         input: {
-            main: 'packages/client/index.html',
-            admin: 'packages/client/admin.html',
+            main: 'index.html',
+            admin: 'admin.html',
         }
     }
   }  
