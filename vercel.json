@@ -18,6 +18,16 @@
       "use": "@vercel/node"
     }
   ],
+
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {"key": "Content-Encoding", "value": "none"} 
+      ]
+    }
+  ],
+
   "rewrites": [
     {
       "source": "/api/(.*)",

@@ -12,14 +12,14 @@ export const generateSitemap = async (req, res) => {
             .sort({ updatedAt: -1 }); 
 
         let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
-        xml += `<url>
-<loc>${BASE_URL}/</loc>
-<lastmod>${new Date().toISOString()}</lastmod>
-<changefreq>daily</changefreq>
-<priority>1.0</priority>
-</url>`;
+             xml += `<url>
+            <loc>${BASE_URL}/</loc>
+            <lastmod>${new Date().toISOString()}</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.0</priority>
+            </url>`;
 
         chapters.forEach(chap => {
             const novelSlug = chap.novel ? chap.novel.novel_slug : 'unknown';
@@ -27,16 +27,17 @@ export const generateSitemap = async (req, res) => {
             const loc = `${BASE_URL}/${novelSlug}/${chap.chapter_slug}`;
             
             xml += `<url>
-<loc>${loc}</loc>
-<lastmod>${chap.updatedAt.toISOString()}</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.8</priority>
-</url>`;
+            <loc>${loc}</loc>
+            <lastmod>${chap.updatedAt.toISOString()}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+            </url>`;
         });
 
         xml += `</urlset>`;
 
         res.setHeader('Content-Type', 'application/xml');
+        res.setHeader('Cache-Control', 'public, max-age=86400, must-revalidate'); 
         res.status(200).send(xml);
 
     } catch (error) {
