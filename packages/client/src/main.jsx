@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import App from './App.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
+import CanonicalLink from './components/CanonicalLink.jsx';
 import HomePage from './pages/HomePage.jsx';
 import ChapterReadPage from './pages/ChapterReadPage.jsx';
 import './index.css';
@@ -11,6 +12,7 @@ import './index.css';
 const router = (
   <BrowserRouter>
     <ScrollToTop/>
+    <CanonicalLink />
     <Routes>
       <Route path="/" element={<App/>}>
         <Route index element={<HomePage/>}/>
