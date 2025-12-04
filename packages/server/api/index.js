@@ -29,7 +29,7 @@ app.use(ensureDBConnection);
 app.use('/api/novels', novelRoutes);
 app.use('/api/chapters', chapterRoutes);
 
-app.use('/sitemap.xml', sitemapRoutes); 
+app.use('/sitemap.xml', sitemapRoutes);
 
 app.get('/', (req, res) => {
     res.status(200).send('API is running via Vercel Serverless Function.');

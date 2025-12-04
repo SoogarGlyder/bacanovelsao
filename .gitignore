@@ -39,3 +39,6 @@ vite-env.d.ts
 
 # Vercel/NPM Specific
 /build
+
+# etc
+content.html
