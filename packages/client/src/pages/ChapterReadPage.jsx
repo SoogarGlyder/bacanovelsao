@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate, useOutletContext } from 'react-router-dom
 import DOMPurify from 'dompurify';
 import styles from './ChapterReadPage.module.css';
 import { useChapterData } from '../hooks/useNovelData.js';
+import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 function ChapterReadPage() {
   const { novelSlug, chapterSlug } = useParams();
@@ -57,7 +58,7 @@ function ChapterReadPage() {
 
 
 if (loading) {
-    return <div style={{ padding: '20px' }}>Memuat chapter...</div>;
+    return <LoadingSpinner/>;
 }
 
 if (error) {

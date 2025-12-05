@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import { useNovelList, useFirstChapterFetcher } from '../hooks/useNovelData.js';
+import LoadingSpinner from './LoadingSpinner.jsx';
 
 function NovelList({ activeSerie, onNovelClick }) {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function NovelList({ activeSerie, onNovelClick }) {
   };
 
   const renderContent = () => {
-    if (loading) return <div className={styles.novelListWrapper}>Mengaktifkan server... Mohon tunggu sebentar.</div>;
+    if (loading) return <LoadingSpinner/>;
     if (error) return <div className={styles.novelListWrapper}>Error: {error}</div>;
     if (novels.length === 0) return <div className={styles.novelListWrapper}>Tidak ada novel yang ditemukan.</div>;
     
