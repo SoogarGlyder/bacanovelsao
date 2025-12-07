@@ -144,6 +144,10 @@ return (
             data-ad-format="auto"
             data-full-width-responsive="true">
         </ins> */}
+        <h3>Dukung Kami Yuk!</h3>
+        <a href="https://saweria.co/SoogarGlyder" target="_blank">
+          <img src="/saweria.png" alt="QR Code Saweria" width="200"></img>
+        </a>
       </aside>
 
     </div>
