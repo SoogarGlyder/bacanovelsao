@@ -50,6 +50,10 @@
       "source": "/header-sao.svg",
       "destination": "/packages/client/header-sao.svg" 
     },
+        {
+      "source": "/saweria.png",
+      "destination": "/packages/client/saweria.png" 
+    },
     {
       "source": "/(.*)",
       "destination": "/packages/client/index.html" 
