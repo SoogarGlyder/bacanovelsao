@@ -7,6 +7,7 @@ import ScrollToTop from './components/ScrollToTop.jsx';
 import CanonicalLink from './components/CanonicalLink.jsx';
 import HomePage from './pages/HomePage.jsx';
 import ChapterReadPage from './pages/ChapterReadPage.jsx';
+import NovelDetailPage from './pages/NovelDetailPage.jsx';
 import './index.css';
 
 const router = (
@@ -16,6 +17,7 @@ const router = (
     <Routes>
       <Route path="/" element={<App/>}>
         <Route index element={<HomePage/>}/>
+        <Route path=":novelSlug" element={<NovelDetailPage/>}/>
         <Route path=":novelSlug/:chapterSlug" element={<ChapterReadPage/>}/>
       </Route>
     </Routes>

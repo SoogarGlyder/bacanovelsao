@@ -28,17 +28,23 @@ router.get('/', asyncHandler(async (req, res) => {
     res.status(200).json(novels);
 }));
 
-router.get('/find-first-chapter/:novelId', asyncHandler(async (req, res) => {
-    const novelId = req.params.novelId;
+router.get('/slug/:novelSlug', asyncHandler(async (req, res) => {
+    const { novelSlug } = req.params;
 
-    const firstChapter = await Chapter.findOne({ novel: novelId })
-                                      .sort({ chapter_number: 1 });
+    const novel = await Novel.findOne({ novel_slug: novelSlug });
 
-    if (!firstChapter) {
-        return res.status(404).json({ message: 'Belum ada chapter untuk novel ini' });
+    if (!novel) {
+        return res.status(404).json({ message: 'Novel tidak ditemukan' });
     }
 
-    res.status(200).json({ firstChapterSlug: firstChapter.chapter_slug }); 
+    const chapters = await Chapter.find({ novel: novel._id })
+        .sort({ chapter_number: 1 })
+        .select('title chapter_slug chapter_number');
+
+    res.status(200).json({
+        novel,
+        chapters
+    });
 }));
 
 router.get('/:id', asyncHandler(async (req, res) => {

@@ -13,7 +13,7 @@
   background-color: #eee;
   border-radius: 0px;
   cursor: pointer;
-  display: none;
+  border: none;
 }
 .leftSidebar {
   width: min(14.3vw, 205.771px);
@@ -34,24 +34,6 @@
   background: #ffffff;
   padding: 10px 20px;
   border-right: 1px solid #f0f0f0;
-}
-.mainContent .content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 30px auto;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.chapter-image-center {
-    text-align: center;
-    margin: 30px auto;
-}
-.chapter-image-center figcaption {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 5px;
-    margin-bottom: 20px;
 }
 .rightSidebar {
   width: min-content;
@@ -128,7 +110,7 @@
   border-top: 2px solid #f0f0f0;
   border-bottom: 2px solid #f0f0f0;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
 }
 
 @media (max-width: 767px) {
@@ -147,6 +129,7 @@
     overflow-y: visible;
     padding-top: 4px;
     background: white;
+    top: var(--total-header-height);
   }
   .mobileToggle {
     display: block;
@@ -168,17 +151,25 @@
     margin-left: unset;
     border-right: none;
   }
+  .novelInfoContainer {
+    display: flex;
+    flex-direction: column;
+    }
+  .coverWrapper {
+    max-width: 100%;
+  }
+  .contentSection {
+    margin: 20px 0 0 0;
+  } 
   .rightSidebar {
     order: 3;
     width: 100%;
     max-width: none;
     position: static;
     margin: 0;
+    margin-bottom: 30px;
   }
   .chapterHeader h1 {
-  font-size: 2em;
-  }
-  .navigation button{
-  border-radius: 0px;
+    font-size: 2em;
   }
 }

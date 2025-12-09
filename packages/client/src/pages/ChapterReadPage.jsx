@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useOutletContext } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import styles from './ChapterReadPage.module.css';
-import { useChapterData } from '../hooks/useNovelData.js';
+import { useChapterData, useNovelList } from '../hooks/useNovelData.js';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
 
 function ChapterReadPage() {
@@ -10,7 +10,7 @@ function ChapterReadPage() {
   const navigate = useNavigate();
   const { setPageSerie } = useOutletContext();
   const [isListVisible, setIsListVisible] = useState(window.innerWidth > 767);
-  
+
   const {
     chapter, 
     loading, 
@@ -25,10 +25,14 @@ function ChapterReadPage() {
       setIsListVisible(false);
     }
   };
-  
+
   const createNewChapterUrl = (targetChapterSlug) => {
-      return `/${novelSlug}/${targetChapterSlug}`; 
+    return `/${novelSlug}/${targetChapterSlug}`; 
   };
+ 
+  const currentSerie = chapter?.novel?.serie;
+  const { novels: serieNovels } = useNovelList(currentSerie);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 767) {
@@ -57,39 +61,45 @@ function ChapterReadPage() {
   // }, [chapter]);
 
 
-if (loading) {
-    return <LoadingSpinner/>;
-}
+  if (loading) {
+      return <LoadingSpinner/>;
+  }
+  if (error) {
+      return <div style={{ padding: '20px' }}>Error: {error}</div>;
+  }
 
-if (error) {
-    return <div style={{ padding: '20px' }}>Error: {error}</div>;
-}
-
-return (
+  return (
     <div className={styles.holyGrailLayout}>
       <aside className={styles.leftSidebar}>
-      <button
-        className={styles.mobileToggle}
-        onClick={() => setIsListVisible(!isListVisible)}>Daftar Chapter {isListVisible ? '▴' : '▾'}
-      </button>
+        <button
+          className={styles.mobileToggle}
+          onClick={() => setIsListVisible(!isListVisible)}>Daftar Chapter {isListVisible ? '▴' : '▾'}
+        </button>
         <h2 className={styles.leftSidebarTitle}>Daftar Chapter</h2>
-        {isListVisible && (
-        <ul className={styles.chapterList}>
-          {allChapters.map((chapterItem) => (
-            <li key={chapterItem._id}>
-              <Link 
-                to={createNewChapterUrl(chapterItem.chapter_slug)}
-                  className={`${styles.chapterLink} ${
-                    chapterItem.chapter_slug === chapterSlug ? styles.activeChapter : ''
-                  }`}
+          {isListVisible && (
+            <ul className={styles.chapterList}>
+              <li>
+                <Link 
+                  to={`/${novelSlug}`}
+                  className={styles.chapterLink}
                   onClick={handleChapterClick}
                 >
-                  {chapterItem.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        )}
+                Sinopsis
+                </Link>
+              </li>
+              {allChapters.map((chapterItem) => (
+                <li key={chapterItem._id}>
+                  <Link 
+                    to={createNewChapterUrl(chapterItem.chapter_slug)}
+                    className={`${styles.chapterLink} ${
+                    chapterItem.chapter_slug === chapterSlug ? styles.activeChapter : ''}`}
+                    onClick={handleChapterClick}>
+                    {chapterItem.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
       </aside>
 
       <main className={styles.mainContent}>
@@ -99,37 +109,58 @@ return (
               <h1>{chapter.novel.title}</h1>
               <h2>{chapter.title}</h2>
             </div>
-
             <hr className={styles.divider} />
-
             <div className={styles.content}>
               {(chapter.content || '').split('\n').map((paragraph, index) => {
                 const cleanedHtml = DOMPurify.sanitize(paragraph);
-                if (!cleanedHtml.trim()) {
+                  if (!cleanedHtml.trim()) {
                     return null;
-                }
-
-                return (
-                    <p 
-                      key={index}
-                      dangerouslySetInnerHTML={{ __html: cleanedHtml }}
-                    />
-                );
+                  }
+                    return (
+                      <p 
+                        key={index}
+                        dangerouslySetInnerHTML={{ __html: cleanedHtml }}
+                      />
+                    );
               })}
             </div>
-
             <div className={styles.navigation}>
               <button 
-                onClick={() => navigate(createNewChapterUrl(prevChapterSlug))} 
-                disabled={!prevChapterSlug}
+                onClick={() => {
+                  if (prevChapterSlug) {
+                    navigate(createNewChapterUrl(prevChapterSlug));
+                  } else {
+                      navigate(`/${novelSlug}`);
+                  }
+                }}
               >
-                &laquo; Chapter Sebelumnya
+                {prevChapterSlug ? '« Chapter Sebelumnya' : '« Sinopsis'}
               </button>
               <button 
-                onClick={() => navigate(createNewChapterUrl(nextChapterSlug))}
-                disabled={!nextChapterSlug}
+                onClick={() => {
+                  if (nextChapterSlug) {
+                    navigate(createNewChapterUrl(nextChapterSlug));
+                  } else {
+                    if (serieNovels && serieNovels.length > 0) {
+                      const currentIndex = serieNovels.findIndex(n => n.novel_slug === novelSlug);  
+                      if (currentIndex !== -1 && currentIndex < serieNovels.length - 1) {
+                        const nextNovel = serieNovels[currentIndex + 1];
+                        navigate(`/${nextNovel.novel_slug}`);
+                      } else {
+                        navigate('/');
+                      }
+                    } else {
+                      navigate('/');
+                    }
+                  }
+                }}
               >
-                Chapter Selanjutnya &raquo;
+                {nextChapterSlug 
+                  ? 'Chapter Selanjutnya »' 
+                  : (serieNovels.findIndex(n => n.novel_slug === novelSlug) < serieNovels.length - 1 
+                    ? 'Novel Selanjutnya »' 
+                    : 'Ke Beranda »')
+                }
               </button>
             </div>
           </>
@@ -138,11 +169,11 @@ return (
 
       <aside className={styles.rightSidebar}>
         {/* <ins className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-4365395677457990"
-            data-ad-slot="4896743654"
-            data-ad-format="auto"
-            data-full-width-responsive="true">
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-4365395677457990"
+          data-ad-slot="4896743654"
+          data-ad-format="auto"
+          data-full-width-responsive="true">
         </ins> */}
         <h3>Dukung Kami Yuk!</h3>
         <a href="https://saweria.co/SoogarGlyder" target="_blank">
@@ -150,8 +181,8 @@ return (
         </a>
       </aside>
 
-    </div>
-);
+      </div>
+  );
 }
 
 export default ChapterReadPage;

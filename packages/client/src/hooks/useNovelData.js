@@ -32,29 +32,6 @@ export function useNovelList(serie) {
   return { novels, loading, error };
 }
 
-// ====================================================================
-// 2. Utility Hook untuk menemukan slug chapter pertama (TIDAK DIUBAH)
-// ===================================================================
-
-export const useFirstChapterFetcher = () => {
-  // ... (Kode useFirstChapterFetcher tetap sama) ...
-  const fetchFirstChapterSlug = useCallback(async (novelId) => {
-    try {
-      const response = await fetch(`/api/novels/find-first-chapter/${novelId}`);
-      if (!response.ok) {
-        throw new Error('Tidak bisa menemukan chapter pertama.');
-      }
-      const data = await response.json();
-      return data.firstChapterSlug;
-    } catch (err) {
-      console.error('Error fetching first chapter slug:', err);
-      throw err;
-    }
-  }, []);
-
-  return fetchFirstChapterSlug;
-};
-
 // ===================================================================
 // 3. Hook untuk mengambil data chapter, daftar chapter, dan navigasi
 // ===================================================================
@@ -125,3 +102,57 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
 
   return { chapter, loading, error, prevChapterSlug, nextChapterSlug, allChapters };
 }
+
+// ===================================================================
+// 4. HOOK MENGAMBIL NOVEL DETAIL DAN CHAPTERS
+// ===================================================================
+
+export const useNovelDetail = (novelSlug) => {
+    const [data, setData] = useState({ novel: null, chapters: [] });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (!novelSlug) {
+            setLoading(false);
+            return;
+        }
+
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(`/api/novels/slug/${novelSlug}`);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Gagal memuat detail novel.');
+                }
+                
+                const result = await response.json();
+                
+                if (!result.novel || !result.chapters) {
+                     throw new Error('Struktur data API detail novel tidak lengkap.');
+                }
+
+                setData(result); 
+
+                document.title = `${result.novel.title} - Sinopsis`;
+
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+        
+        return () => {
+            document.title = "Baca Novel SAO";
+        };
+        
+    }, [novelSlug]);
+
+    return { novel: data.novel, chapters: data.chapters, loading, error };
+};

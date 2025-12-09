@@ -19,5 +19,8 @@
   ],
   "devDependencies": {
     "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "next-sitemap": "^4.2.3"
   }
 }

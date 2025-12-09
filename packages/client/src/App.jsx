@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './components/Header.jsx';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   const [pageSerie, setPageSerie] = useState(null); 
@@ -30,9 +31,11 @@ function App() {
         dropdownSerie={dropdownSerie}
       />
       
-      <main style={{ marginTop: 'var(--total-header-height)' }}>
+      <main style={{ marginTop: 'var(--total-header-height)', minHeight: 'calc(100vh - var(--total-header-height)' }}>
         <Outlet context={{ setPageSerie, setDropdownSerie, setIsListOpen, isListOpen, activeSerie }} />
       </main>
+
+      {/* <Footer /> */}
     </>
   );
 }
