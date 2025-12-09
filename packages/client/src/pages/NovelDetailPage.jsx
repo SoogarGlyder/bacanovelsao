@@ -4,6 +4,9 @@ import DOMPurify from 'dompurify';
 import styles from './NovelDetailPage.module.css';
 import { useNovelDetail } from '../hooks/useNovelData.js';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
+import SEO from '../components/SEO.jsx';
+import NotFoundPage from './NotFoundPage.jsx';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 function NovelDetailPage() {
   const { novelSlug } = useParams();
@@ -29,6 +32,8 @@ function NovelDetailPage() {
   };
 
   const firstChapterSlug = allChapters.length > 0 ? allChapters[0].chapter_slug : null;
+  
+  const currentUrl = window.location.href;
   
   useEffect(() => {
     if (novel) {
@@ -57,14 +62,26 @@ function NovelDetailPage() {
     return <LoadingSpinner/>;
   }
   if (error) {
-    return <div style={{ padding: '20px' }}>Error: {error}</div>;
+      if (error.includes('tidak ditemukan') || error.includes('404')) {
+          return <NotFoundPage />;
+      }
+      return <div style={{ padding: '20px', textAlign: 'center' }}>Error: {error}</div>;
   }
   if (!novel) {
-    return <div style={{ padding: '20px' }}>Novel tidak ditemukan.</div>;
+      return <NotFoundPage />;
   }
 
   return (
     <div className={styles.holyGrailLayout}>
+      {novel && (
+        <SEO 
+          key={novelSlug}
+          title={`${novel.title} (${novel.serie})`}
+          description={novel.synopsis}
+          image={novel.cover_image}
+          url={currentUrl}
+        />
+      )}
       <aside className={styles.leftSidebar}>
         <button
           className={styles.mobileToggle}
@@ -97,6 +114,12 @@ function NovelDetailPage() {
       </aside>
 
       <main className={styles.mainContent}>
+        <Breadcrumbs 
+          items={[
+            { label: novel.title, link: `/${novelSlug}` }, 
+            { label: `Sinopsis`, link: null } 
+          ]} 
+        />
         <div className={styles.chapterHeader}>
           <h1>{novel.title}</h1>
           <h2>Sinopsis</h2>

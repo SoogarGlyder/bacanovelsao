@@ -33,7 +33,7 @@ export function useNovelList(serie) {
 }
 
 // ===================================================================
-// 3. Hook untuk mengambil data chapter, daftar chapter, dan navigasi
+// 2. Hook untuk mengambil data chapter, daftar chapter, dan navigasi
 // ===================================================================
 
 export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
@@ -72,7 +72,6 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
 
         setChapter(chapterData);
         setPageSerie(chapterData.novel.serie);
-        document.title = `${chapterData.novel.title} - ${chapterData.title}`;
 
         setAllChapters(allChaptersData);
 
@@ -95,16 +94,13 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
     };
     fetchData();
 
-    return () => {
-      document.title = "Baca Novel SAO";
-    };
   }, [chapterSlug, setPageSerie, novelSlug]); 
 
   return { chapter, loading, error, prevChapterSlug, nextChapterSlug, allChapters };
 }
 
 // ===================================================================
-// 4. HOOK MENGAMBIL NOVEL DETAIL DAN CHAPTERS
+// 3. HOOK MENGAMBIL NOVEL DETAIL DAN CHAPTERS
 // ===================================================================
 
 export const useNovelDetail = (novelSlug) => {
@@ -137,8 +133,6 @@ export const useNovelDetail = (novelSlug) => {
 
                 setData(result); 
 
-                document.title = `${result.novel.title} - Sinopsis`;
-
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -147,11 +141,7 @@ export const useNovelDetail = (novelSlug) => {
         };
 
         fetchData();
-        
-        return () => {
-            document.title = "Baca Novel SAO";
-        };
-        
+
     }, [novelSlug]);
 
     return { novel: data.novel, chapters: data.chapters, loading, error };

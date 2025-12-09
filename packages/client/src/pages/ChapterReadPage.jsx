@@ -4,6 +4,9 @@ import DOMPurify from 'dompurify';
 import styles from './ChapterReadPage.module.css';
 import { useChapterData, useNovelList } from '../hooks/useNovelData.js';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
+import SEO from '../components/SEO.jsx';
+import NotFoundPage from './NotFoundPage.jsx';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 function ChapterReadPage() {
   const { novelSlug, chapterSlug } = useParams();
@@ -32,7 +35,7 @@ function ChapterReadPage() {
  
   const currentSerie = chapter?.novel?.serie;
   const { novels: serieNovels } = useNovelList(currentSerie);
-
+  const currentUrl = window.location.href;
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 767) {
@@ -65,11 +68,23 @@ function ChapterReadPage() {
       return <LoadingSpinner/>;
   }
   if (error) {
-      return <div style={{ padding: '20px' }}>Error: {error}</div>;
+      if (error.includes('tidak ditemukan') || error.includes('not found') || error.includes('404')) {
+          return <NotFoundPage />;
+      }
+      return <div style={{ padding: '20px', textAlign: 'center' }}>Terjadi Kesalahan: {error}</div>;
   }
 
   return (
     <div className={styles.holyGrailLayout}>
+      {chapter && (
+        <SEO 
+          key={chapterSlug}
+          title={`${chapter.title} - ${chapter.novel.title}`}
+          description={chapter.content ? chapter.content.substring(0, 200) : ''}
+          image={chapter.novel.cover_image}
+          url={currentUrl}
+        />
+      )}
       <aside className={styles.leftSidebar}>
         <button
           className={styles.mobileToggle}
@@ -105,6 +120,12 @@ function ChapterReadPage() {
       <main className={styles.mainContent}>
         {chapter && (
           <>
+            <Breadcrumbs 
+              items={[
+                { label: chapter.novel.title, link: `/${novelSlug}` }, 
+                { label: `${chapter.title}`, link: null } 
+              ]} 
+            />
             <div className={styles.chapterHeader}>
               <h1>{chapter.novel.title}</h1>
               <h2>{chapter.title}</h2>
