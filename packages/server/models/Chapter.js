@@ -43,6 +43,8 @@ chapterSchema.pre('validate', function(next) {
     next();
 });
 
+chapterSchema.index({ novel: 1, chapter_slug: 1 });
+
 const Chapter = mongoose.model("Chapter", chapterSchema);
 
 export default Chapter;

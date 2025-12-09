@@ -31,14 +31,17 @@ router.post('/', protect, asyncHandler(async (req, res) => {
 router.get('/all', asyncHandler(async (req, res) => {
     const chapters = await Chapter.find({})
         .populate('novel', 'title serie novel_slug') 
-        .sort({ chapter_number: 1 }); 
+        .sort({ chapter_number: 1 })
+        .lean();
         
     res.status(200).json(chapters);
 }));
 
 router.get('/novel/:novelId', asyncHandler(async (req, res) => {
     const chapters = await Chapter.find({ novel: req.params.novelId },
-        'title chapter_slug chapter_number').sort({ chapter_number: 1 });
+        'title chapter_slug chapter_number')
+        .sort({ chapter_number: 1 })
+        .lean();
     res.status(200).json(chapters);
 }));
 
@@ -46,7 +49,7 @@ router.get('/slug/:chapterSlug', asyncHandler(async (req, res) => {
     const chapterSlug = req.params.chapterSlug;
     const novelSlug = req.query.novelSlug;
 
-    const novelInfo = await Novel.findOne({ novel_slug: novelSlug }, '_id');
+    const novelInfo = await Novel.findOne({ novel_slug: novelSlug }, '_id').lean();
 
     if (!novelInfo) {
         return res.status(404).json({ message: 'Novel tidak ditemukan berdasarkan slug' });
@@ -56,10 +59,12 @@ router.get('/slug/:chapterSlug', asyncHandler(async (req, res) => {
         Chapter.findOne({ 
             novel: novelInfo._id, 
             chapter_slug: chapterSlug 
-        }).populate('novel', 'title serie novel_slug'),
+        }).populate('novel', 'title serie novel_slug')
+        .lean(),
         
         Chapter.find({ novel: novelInfo._id }, 'title chapter_slug chapter_number')
                .sort({ chapter_number: 1 })
+               .lean()
     ]);
 
     if (!chapter) {
@@ -74,7 +79,8 @@ router.get('/slug/:chapterSlug', asyncHandler(async (req, res) => {
 
 router.get('/:chapterId', asyncHandler(async (req, res) => {
     const chapter = await Chapter.findById(req.params.chapterId)
-                                 .populate('novel', 'title serie novel_slug'); 
+                                 .populate('novel', 'title serie novel_slug')
+                                 .lean();
     if (!chapter) {
         return res.status(404).json({ message: 'Chapter tidak ditemukan' });
     }
