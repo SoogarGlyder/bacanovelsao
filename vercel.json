@@ -39,24 +39,48 @@
       "destination": "packages/server/api/index.js"
     },
     {
-      "source": "/robots.txt",
-      "destination": "/packages/client/robots.txt"
-    },
-    {
       "source": "/assets/(.*)",
       "destination": "/packages/client/assets/$1" 
+    },
+    {
+      "source": "/favicon.png",
+      "destination": "/packages/client/favicon.png" 
+    },
+    {
+      "source": "/header-sao-lost.svg",
+      "destination": "/packages/client/header-sao-lost.svg" 
     },
     {
       "source": "/header-sao.svg",
       "destination": "/packages/client/header-sao.svg" 
     },
-        {
-      "source": "/saweria.png",
-      "destination": "/packages/client/saweria.png" 
+    {
+      "source": "/icon-256.png",
+      "destination": "/packages/client/icon-256.png"
+    },
+    {
+      "source": "/icon-512-maskable.png",
+      "destination": "/packages/client/icon-512-maskable.png"
+    },
+    {
+      "source": "/icon-512.png",
+      "destination": "/packages/client/icon-512.png"
     },
     {
       "source": "/(.*)",
       "destination": "/packages/client/index.html" 
+    },
+    {
+      "source": "/manifest.json",
+      "destination": "/packages/client/manifest.json"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/packages/client/robots.txt"
+    },
+    {
+      "source": "/saweria.png",
+      "destination": "/packages/client/saweria.png" 
     }
   ]
 }
