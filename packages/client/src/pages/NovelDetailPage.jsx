@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import SEO from '../components/SEO.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { getReadingHistory } from '../utils/readingHistory';
 
 function NovelDetailPage() {
   const { novelSlug } = useParams();
@@ -20,6 +21,8 @@ function NovelDetailPage() {
     loading,
     error
   } = useNovelDetail(novelSlug);
+
+  const [lastRead, setLastRead] = useState(null);
   
   const handleLinkClick = () => {
     if (window.innerWidth <= 767) {
@@ -57,6 +60,13 @@ function NovelDetailPage() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (novelSlug) {
+      const historyData = getReadingHistory(novelSlug);
+      setLastRead(historyData);
+    }
+  }, [novelSlug]);
 
   if (loading) {
     return <LoadingSpinner/>;
@@ -140,11 +150,26 @@ function NovelDetailPage() {
           })}
         </div>
         <div className={styles.navigation}>
+          {lastRead && (
+            <div className={styles.lastRead}>
+              <div>
+                <span style={{ display: 'block', fontSize: '0.85rem', color: '#666', marginRight: '20px' }}>
+                  Terakhir dibaca:
+                </span>
+                <strong style={{ color: '#333' }}>
+                  {lastRead.chapterTitle}
+                </strong>
+              </div>
+              <Link to={`/${novelSlug}/${lastRead.chapterSlug}`}>
+                Lanjut Baca »
+              </Link>
+            </div>
+          )}
           <button 
             onClick={() => navigate(createNewChapterUrl(firstChapterSlug))}
             disabled={!firstChapterSlug}
           >
-            Chapter Selanjutnya &raquo;
+            Chapter Pertama &raquo;
           </button>
         </div>
       </main>

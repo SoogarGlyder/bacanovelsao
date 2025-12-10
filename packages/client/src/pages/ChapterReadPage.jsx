@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import SEO from '../components/SEO.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { saveReadingHistory } from '../utils/readingHistory';
 
 function ChapterReadPage() {
   const { novelSlug, chapterSlug } = useParams();
@@ -36,6 +37,7 @@ function ChapterReadPage() {
   const currentSerie = chapter?.novel?.serie;
   const { novels: serieNovels } = useNovelList(currentSerie);
   const currentUrl = window.location.href;
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 767) {
@@ -51,6 +53,17 @@ function ChapterReadPage() {
     };
   }, []);
   
+  useEffect(() => {
+    if (chapter && chapter.novel) {
+      saveReadingHistory(
+        chapter.novel.novel_slug,
+        chapter.chapter_slug,
+        chapter.title,
+        chapter.chapter_number
+      );
+    }
+  }, [chapter]);
+
   // useEffect(() => {
   //   if (chapter) { 
   //       try {

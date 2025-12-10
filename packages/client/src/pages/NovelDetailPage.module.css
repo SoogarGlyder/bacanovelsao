@@ -110,7 +110,29 @@
   border-top: 2px solid #f0f0f0;
   border-bottom: 2px solid #f0f0f0;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+}
+.lastRead {
+  padding: 15px;
+  background: rgb(227, 242, 253);
+  border-left: 5px solid rgb(56, 182, 255);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lastRead a {
+  background-color: rgb(56, 182, 255);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.lastRead a:hover {
+  color: white;
+  transform: scale(1.05);
 }
 
 @media (max-width: 767px) {
