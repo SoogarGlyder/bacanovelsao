@@ -92,7 +92,7 @@ function ChapterReadPage() {
       {chapter && (
         <SEO 
           key={chapterSlug}
-          title={`${chapter.title} - ${chapter.novel.title}`}
+          title={`${chapter.title} | ${chapter.novel.title}`}
           description={chapter.content ? chapter.content.substring(0, 200) : ''}
           image={chapter.novel.cover_image}
           url={currentUrl}
@@ -196,6 +196,12 @@ function ChapterReadPage() {
                     : 'Ke Beranda »')
                 }
               </button>
+            </div>
+            <div className={styles.disclaimer}>
+              <p>
+                <strong>Disclaimer:</strong> Kami tidak berafiliasi dengan Reki Kawahara, ASCII Media Works, atau 
+                pemegang lisensi resmi lainnya. Ini adalah proyek penggemar. Dukung penulis dengan membeli karya aslinya.
+              </p>
             </div>
           </>
         )}

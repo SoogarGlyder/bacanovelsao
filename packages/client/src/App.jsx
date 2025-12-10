@@ -35,7 +35,7 @@ function App() {
         <Outlet context={{ setPageSerie, setDropdownSerie, setIsListOpen, isListOpen, activeSerie }} />
       </main>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

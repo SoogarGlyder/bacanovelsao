@@ -86,7 +86,7 @@ function NovelDetailPage() {
       {novel && (
         <SEO 
           key={novelSlug}
-          title={`${novel.title} (${novel.serie})`}
+          title={`${novel.title}`}
           description={novel.synopsis}
           image={novel.cover_image}
           url={currentUrl}
@@ -171,6 +171,12 @@ function NovelDetailPage() {
           >
             Chapter Pertama &raquo;
           </button>
+        </div>
+        <div className={styles.disclaimer}>
+          <p>
+            <strong>Disclaimer:</strong> Kami tidak berafiliasi dengan Reki Kawahara, ASCII Media Works, atau 
+            pemegang lisensi resmi lainnya. Ini adalah proyek penggemar. Dukung penulis dengan membeli karya aslinya.
+          </p>
         </div>
       </main>
 
