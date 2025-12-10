@@ -8,6 +8,7 @@ import SEO from '../components/SEO.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { saveReadingHistory } from '../utils/readingHistory';
+import ReadingProgressBar from '../components/ReadingProgressBar';
 
 function ChapterReadPage() {
   const { novelSlug, chapterSlug } = useParams();
@@ -37,6 +38,27 @@ function ChapterReadPage() {
   const currentSerie = chapter?.novel?.serie;
   const { novels: serieNovels } = useNovelList(currentSerie);
   const currentUrl = window.location.href;
+
+  const calculateReadingTime = (textHtml) => {
+    if (!textHtml) return 0;
+    const text = textHtml.replace(/<[^>]*>/g, '');
+    const wordCount = text.split(/\s+/).length;
+    const readingSpeed = 200;
+    return Math.ceil(wordCount / readingSpeed);
+  };
+
+  const readingTime = chapter ? calculateReadingTime(chapter.content) : 0;
+
+  const [fontSize, setFontSize] = useState(18);
+
+  const changeFontSize = (delta) => {
+    setFontSize(prev => {
+      const newSize = prev + delta;
+      if (newSize < 14) return 14;
+      if (newSize > 24) return 24;
+      return newSize;
+    });
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -89,6 +111,7 @@ function ChapterReadPage() {
 
   return (
     <div className={styles.holyGrailLayout}>
+      <ReadingProgressBar />
       {chapter && (
         <SEO 
           key={chapterSlug}
@@ -142,9 +165,18 @@ function ChapterReadPage() {
             <div className={styles.chapterHeader}>
               <h1>{chapter.novel.title}</h1>
               <h2>{chapter.title}</h2>
+                <span style={{ 
+                  fontSize: '0.9rem', 
+                  color: '#888', 
+                  marginTop: '5px', 
+                }}>
+                  Estimasi waktu baca: {readingTime} menit
+                </span>
             </div>
             <hr className={styles.divider} />
-            <div className={styles.content}>
+            <div className={styles.content}
+              style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
+            >
               {(chapter.content || '').split('\n').map((paragraph, index) => {
                 const cleanedHtml = DOMPurify.sanitize(paragraph);
                   if (!cleanedHtml.trim()) {
