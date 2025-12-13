@@ -3,6 +3,8 @@
   width: 100%;
   max-width: 1440px; 
   justify-self: center;
+  align-items: flex-start; 
+  position: relative;
 }
 .mobileToggle {
   display: none;
@@ -19,10 +21,12 @@
   width: min(14.3vw, 205.771px);
   flex-shrink: 0; 
   position: sticky;
+  position: -webkit-sticky;
   top: var(--total-header-height);
   height: calc(100vh - var(--total-header-height)); 
   overflow-y: auto; 
   background: #f9f9f9;
+  scrollbar-width: thin;
 }
 .leftSidebarTitle {
   padding: 10px;
